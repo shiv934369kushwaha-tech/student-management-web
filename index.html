@@ -277,10 +277,10 @@ oninput="renderStudents()">
 
     let students = JSON.parse(localStorage.getItem("studentData"));
 
-if (students === null) {
+if (students === null || students.length === 0) {
     students = defaultStudents.map(s => ({...s}));
-}
-
+    saveStudents();
+  }
 function saveStudents() {
     localStorage.setItem("studentData", JSON.stringify(students));
 }
@@ -678,8 +678,4 @@ report += "Total Transactions: " + history.length + "\n\n";
   }
   
 renderStudents();
-  function printReceipt() {
-    window.print();
-  }
-
-</scrip
+  function pri
