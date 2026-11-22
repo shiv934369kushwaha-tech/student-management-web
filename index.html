@@ -163,6 +163,11 @@
 </head>
 
 <body>
+  <div style="background:linear-gradient(135deg,#0f172a,#1e40af);color:white;text-align:center;padding:20px;border-radius:12px;margin-bottom:15px;">
+    <h1 style="margin:0;font-size:24px;">Shri Ram Institute of Science and Technology</h1>
+    <p style="margin:8px 0 0;">Jabalpur, Madhya Pradesh</p>
+    <h3 style="margin:12px 0 0;">Student Management System</h3>
+  </div>
 
 <div class="container">
 
@@ -677,20 +682,4 @@ renderStudents();
     window.print();
   }
 
-</script>
-  
-<script>
-let savedSchoolName = localStorage.getItem("schoolName") || "";
-
-function saveSchoolName() {
-    let name = document.getElementById("schoolNameInput").value.trim();
-
-    if (name === "") {
-        alert("School name likho!");
-        return;
-    }
-
-    localStorage.setItem("schoolName", name);
-    savedSchoolName = name;
-    alert("School Name Saved!");
-}
+</scrip
