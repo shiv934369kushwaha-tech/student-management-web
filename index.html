@@ -168,6 +168,9 @@
     <p style="margin:8px 0 0;">Jabalpur, Madhya Pradesh</p>
     <h3 style="margin:12px 0 0;">Student Management System</h3>
 </div>
+    <button onclick="adminLogout()" style="background:#dc2626;color:white;padding:10px 20px;border:none;border-radius:8px;margin:10px;">
+    🚪 Logout
+</button>
   <!-- ADMIN LOGIN -->
 <div id="adminLogin" style="position:fixed;inset:0;z-index:99999;background:linear-gradient(135deg,#0f172a,#1e40af);display:flex;justify-content:center;align-items:center;padding:20px;">
     <div style="background:white;width:100%;max-width:380px;padding:28px;border-radius:18px;text-align:center;">
@@ -758,6 +761,14 @@ loginBtn.addEventListener("click", async () => {
 
     loginBtn.disabled = false;
 });
+      window.adminLogout = async function() {
+    try {
+        await signOut(auth);
+        alert("Logout successful!");
+    } catch (error) {
+        alert("Logout nahi ho paya!");
+    }
+};
       </script>
       <script>
 let savedSchoolName = localStorage.getItem("schoolName") || "";
