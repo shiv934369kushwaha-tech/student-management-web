@@ -33,4 +33,4 @@ function history(i){let s=students[i];let text=s.paymentHistory.length?s.payment
 function closeReceipt(){document.getElementById('receipt').style.display='none'}function printReceipt(){document.body.classList.add('printing');window.print()}window.onafterprint=()=>document.body.classList.remove('printing');
 function csv(){let data=[['Name','Class','City','Marks','Percentage','Grade','Total Fees','Paid Fees','Due Fees'],...students.map(s=>[s.name,s.studentClass,s.city,s.marks,s.marks+'%',grade(s.marks),s.totalFees,s.paidFees,due(s)])];let out=data.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\n');let blob=new Blob(['\ufeff'+out],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='student_report.csv';a.click();URL.revokeObjectURL(url)}
 render();
-</script></body></html>
+</script></body><!-- GitHub Pages refresh --></html>
