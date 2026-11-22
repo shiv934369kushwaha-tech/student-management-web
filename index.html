@@ -191,8 +191,7 @@
 </div>
 
 
-<div class="container">
-
+<div class="container" style="display:none;">
     <h2>Student Management</h2>
 
     <h3>Add New Student</h3>
@@ -304,7 +303,16 @@ if (students === null) {
 
 function saveStudents() {
     localStorage.setItem("studentData", JSON.stringify(students));
+
+    if (window.isAdminLoggedIn && window.saveOnlineStudents) {
+        window.saveOnlineStudents(students);
+    }
 }
+    window.applyOnlineStudents = function(data) {
+    students = data;
+    saveStudents();
+    renderStudents();
+};
 
 // Ravi ko check karo
 let ravi = students.find(
@@ -704,14 +712,22 @@ renderStudents();
   }
 
 </script>
-  <script type="module">
+ <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
 import {
     getAuth,
     signInWithEmailAndPassword,
     onAuthStateChanged,
     signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCpV_d9pIgm1VIxpVgKNGQFRaXKhvh5k-A",
@@ -725,24 +741,82 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
+window.db = db;
+window.isAdminLoggedIn = false;
+
+// Online Save
+window.saveOnlineStudents = async function(studentList) {
+    if (!auth.currentUser) return false;
+
+    try {
+        await setDoc(doc(db, "studentData", "main"), {
+            students: studentList
+        });
+        return true;
+    } catch (error) {
+        alert("Online save error: " + error.message);
+        return false;
+    }
+};
+
+// Online Load
+window.loadOnlineStudents = async function() {
+    try {
+        const snapshot = await getDoc(doc(db, "studentData", "main"));
+
+        if (snapshot.exists()) {
+            return snapshot.data().students;
+        }
+
+        return null;
+    } catch (error) {
+        alert("Online load error: " + error.message);
+        return null;
+    }
+};
+
+// Login status
 const loginBox = document.getElementById("adminLogin");
 const loginBtn = document.getElementById("loginBtn");
 const loginMessage = document.getElementById("loginMessage");
+const mainContainer = document.querySelector(".container");
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
     if (user) {
         loginBox.style.display = "none";
+        loginMessage.innerText = "Data load ho raha hai...";
+
+        try {
+            const onlineData = await window.loadOnlineStudents();
+
+            if (onlineData !== null) {
+                window.applyOnlineStudents(onlineData);
+            } else {
+                // First time: old local data will be uploaded
+                await window.saveOnlineStudents(
+                    JSON.parse(localStorage.getItem("studentData") || "[]")
+                );
+            }
+
+            window.isAdminLoggedIn = true;
+            mainContainer.style.display = "block";
+            renderStudents();
+        } catch (error) {
+            alert("Data load nahi hua: " + error.message);
+        }
     } else {
+        window.isAdminLoggedIn = false;
         loginBox.style.display = "flex";
+        mainContainer.style.display = "none";
     }
 });
 
+// Login Button
 loginBtn.addEventListener("click", async () => {
     const email = document.getElementById("adminEmail").value.trim();
     const password = document.getElementById("adminPassword").value;
-
-    loginMessage.style.color = "red";
 
     if (!email || !password) {
         loginMessage.innerText = "Email aur password bharo!";
@@ -750,26 +824,30 @@ loginBtn.addEventListener("click", async () => {
     }
 
     loginBtn.disabled = true;
+    loginMessage.style.color = "white";
     loginMessage.innerText = "Login ho raha hai...";
 
     try {
         await signInWithEmailAndPassword(auth, email, password);
         loginMessage.innerText = "Login successful!";
     } catch (error) {
+        loginMessage.style.color = "red";
         loginMessage.innerText = "Login failed: " + error.message;
     }
 
     loginBtn.disabled = false;
 });
-      window.adminLogout = async function() {
+
+// Logout
+window.adminLogout = async function() {
     try {
         await signOut(auth);
         alert("Logout successful!");
     } catch (error) {
-        alert("Logout nahi ho paya!");
+        alert("Logout nahi ho paya: " + error.message);
     }
 };
-      </script>
+</script>
       <script>
 let savedSchoolName = localStorage.getItem("schoolName") || "";
 
