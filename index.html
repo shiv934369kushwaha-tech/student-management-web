@@ -158,16 +158,30 @@
     }
       }
 }
-        </style>
+</style>
 </style>
 </head>
 
 <body>
-  <div style="background:linear-gradient(135deg,#0f172a,#1e40af);color:white;text-align:center;padding:20px;border-radius:12px;margin-bottom:15px;">
-    <h1 style="margin:0;font-size:24px;">Shri Ram Institute of Science and Technology</h1>
-    <p style="margin:8px 0 0;">Jabalpur, Madhya Pradesh</p>
-    <h3 style="margin:12px 0 0;">Student Management System</h3>
-  </div>
+  <!-- ADMIN LOGIN -->
+<div id="adminLogin" style="position:fixed;inset:0;z-index:99999;background:linear-gradient(135deg,#0f172a,#1e40af);display:flex;justify-content:center;align-items:center;padding:20px;">
+    <div style="background:white;width:100%;max-width:380px;padding:28px;border-radius:18px;text-align:center;">
+        <h2 style="color:#1e3a8a;">🏫 Admin Login</h2>
+        <p style="color:#64748b;">Shri Ram Institute of Science and Technology</p>
+
+        <input id="adminEmail" type="email" placeholder="Admin Email"
+        style="width:100%;padding:12px;margin:10px 0;box-sizing:border-box;">
+
+        <input id="adminPassword" type="password" placeholder="Password"
+        style="width:100%;padding:12px;margin:10px 0;box-sizing:border-box;">
+
+        <button id="loginBtn" style="width:100%;padding:13px;background:#1e40af;color:white;border:none;border-radius:8px;">
+            Login
+        </button>
+        <p id="loginMessage" style="color:red;"></p>
+    </div>
+</div>
+
 
 <div class="container">
 
@@ -206,7 +220,7 @@ function calculateDue() {
 
 <input type="text" id="searchInput"
 placeholder="Search student name..."
-    oninput="renderStudents()">
+oninput="renderStudents()">
 
 <button onclick="showPendingFees()">Pending Fees</button>
   <button onclick="renderStudents()">Show All Students</button>
@@ -249,7 +263,6 @@ placeholder="Search student name..."
     <input type="text" id="schoolNameInput"
     placeholder="Enter School Name"
     style="padding:10px; width:90%;">
-
     <button onclick="saveSchoolName()"
     style="padding:10px; margin-top:10px;">
         Save School Name
@@ -265,6 +278,7 @@ placeholder="Search student name..."
     </div>
 </div>
 </div>
+
 <script>
 
     const defaultStudents = [
@@ -276,10 +290,10 @@ placeholder="Search student name..."
 
     let students = JSON.parse(localStorage.getItem("studentData"));
 
-if (students === null || students.length === 0) {
+if (students === null) {
     students = defaultStudents.map(s => ({...s}));
-    saveStudents();
-  }
+}
+
 function saveStudents() {
     localStorage.setItem("studentData", JSON.stringify(students));
 }
@@ -332,7 +346,7 @@ saveStudents();
       let totalFeesSum = 0;
 let paidFeesSum = 0;
 let dueFeesSum = 0;
-        let pendingStudents = 0;
+      let pendingStudents = 0;
 students.forEach(function(student) {
     totalMarks += Number(student.marks);
     totalFeesSum += Number(student.totalFees || 0);
@@ -395,7 +409,8 @@ document.getElementById("topper").textContent = topperText;
 }).length;
 
 let fail = students.length - pass;
-        document.getElementById("passCount").textContent = "Pass: " + pass;
+
+document.getElementById("passCount").textContent = "Pass: " + pass;
 document.getElementById("failCount").textContent = "Fail: " + fail;
 
         students.forEach(function(student, index) {
@@ -463,7 +478,7 @@ actionCell.appendChild(historyButton);
 
 historyButton.onclick = function() {
     showPaymentHistory(index);
-};
+    };
 
 actionCell.appendChild(historyButton);
           let editButton = document.createElement("button");
@@ -494,7 +509,8 @@ let paidFees = document.getElementById("paidFees").value;
     alert("Paid Fees cannot be greater than Total Fees!");
     return;
       }
-        students.push({
+
+      students.push({
     name: name,
     studentClass: studentClass,
     city: city,
@@ -555,7 +571,7 @@ students[index].dueFees = Number(totalFees) - Number(paidFees);
 
     saveStudents();
     renderStudents();
-    }
+      }
   function downloadCSV() {
     let csv = "Name,Class,City,Marks,Percentage,Grade\n";
 
@@ -680,8 +696,65 @@ renderStudents();
   }
 
 </script>
-  
-<script>
+  <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCpV_d9pIgm1VIxpVgKNGQFRaXKhvh5k-A",
+    authDomain: "student-management-syste-e718d.firebaseapp.com",
+    projectId: "student-management-syste-e718d",
+    storageBucket: "student-management-syste-e718d.firebasestorage.app",
+    messagingSenderId: "1001370082792",
+    appId: "1:1001370082792:web:9b73d16e7b99f83217185d",
+    measurementId: "G-3FX4RFJYJ3"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const loginBox = document.getElementById("adminLogin");
+const loginBtn = document.getElementById("loginBtn");
+const loginMessage = document.getElementById("loginMessage");
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        loginBox.style.display = "none";
+    } else {
+        loginBox.style.display = "flex";
+    }
+});
+
+loginBtn.addEventListener("click", async () => {
+    const email = document.getElementById("adminEmail").value.trim();
+    const password = document.getElementById("adminPassword").value;
+
+    loginMessage.style.color = "red";
+
+    if (!email || !password) {
+        loginMessage.innerText = "Email aur password bharo!";
+        return;
+    }
+
+    loginBtn.disabled = true;
+    loginMessage.innerText = "Login ho raha hai...";
+
+    try {
+        await signInWithEmailAndPassword(auth, email, password);
+        loginMessage.innerText = "Login successful!";
+    } catch (error) {
+        loginMessage.innerText = "Login failed: " + error.message;
+    }
+
+    loginBtn.disabled = false;
+});
+      </script>
+      <script>
 let savedSchoolName = localStorage.getItem("schoolName") || "";
 
 function saveSchoolName() {
@@ -696,32 +769,3 @@ function saveSchoolName() {
     savedSchoolName = name;
     alert("School Name Saved!");
 }
-
-document.getElementById("schoolNameInput").value =
-    localStorage.getItem("schoolName") || "";
-</script>
-  
-  <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCpV_d9pIgm1VIxpVgKNGQFRaXKhvh5k-A",
-  authDomain: "student-management-syste-e718d.firebaseapp.com",
-  projectId: "student-management-syste-e718d",
-  storageBucket: "student-management-syste-e718d.firebasestorage.app",
-  messagingSenderId: "1001370082792",
-  appId: "1:1001370082792:web:9b73d16e7b99f83217185d",
-  measurementId: "G-3FX4RFJYJ3"
-};
-
-const app = initializeApp(firebaseConfig);
-window.firebaseDB = getFirestore(app);
-
-window.firebaseReady = true;
-    document.body.insertAdjacentHTML("beforeend", "<h3 style='color:green'>Firebase Connected ✅</h3>");
-console.log("Firebase Connected!");
-</script>
-
-</body>
-</html>
