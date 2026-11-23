@@ -224,54 +224,83 @@
         </div>
 
     </div>
-    <!-- Fee Collection Progress -->
-<div style="background:white;padding:18px;margin-top:15px;border-radius:12px;box-shadow:0 2px 8px #ccc;">
+   <!-- DASHBOARD -->
+<div id="dashboard" class="page" style="margin-bottom:20px;">
 
-    <h3>📈 Fee Collection Progress</h3>
+    <div style="display:grid; grid-template-columns:300px 1fr; gap:15px; align-items:start;">
 
-    <div style="background:#e5e7eb;height:22px;border-radius:20px;overflow:hidden;">
-        <div id="feeProgressBar" style="width:0%;height:100%;background:linear-gradient(90deg,#16a34a,#22c55e);border-radius:20px;"></div>
+        <!-- LEFT COLUMN: QUICK ACTIONS -->
+        <div style="background:white;padding:15px;margin:0;border-radius:12px;box-shadow:0 2px 8px #ccc;">
+
+            <h3>⚡ Quick Actions</h3>
+
+            <button onclick="showPage('enrollPage')">➕ Enroll Student</button>
+
+            <button onclick="showPage('feePaymentPage')">💰 Fee Payment</button>
+
+            <button onclick="showPage('studentListPage')">👨‍🎓 Student List</button>
+
+            <button onclick="showPage('pendingFeesPage'); showPendingFees()">⏳ Pending Fees</button>
+
+            <button onclick="showPage('feeReportPage')">📊 Fee Report</button>
+
+            <button onclick="showPage('feeAlertPage')">🔔 Low Fee Alert</button>
+
+            <button onclick="showPage('schoolSettingsPage')">🏫 School Settings</button>
+
+        </div>
+
+        <!-- RIGHT COLUMN: ADMIN DASHBOARD -->
+        <div>
+
+            <h2 style="color:#1e40af; text-align:center;">📊 Admin Dashboard</h2>
+
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px;">
+
+                <!-- Total Students -->
+                <div style="background:#dbeafe; padding:18px; border-radius:12px; text-align:center;">
+                    <h3>👨‍🎓 Total Students</h3>
+                    <h2 id="dashStudents">0</h2>
+                </div>
+
+                <!-- Total Fees -->
+                <div style="background:#dcfce7; padding:18px; border-radius:12px; text-align:center;">
+                    <h3>💰 Total Fees</h3>
+                    <h2 id="dashTotalFees">₹0</h2>
+                </div>
+
+                <!-- Paid Fees -->
+                <div style="background:#d1fae5; padding:18px; border-radius:12px; text-align:center;">
+                    <h3>✅ Paid Fees</h3>
+                    <h2 id="dashPaidFees">₹0</h2>
+                </div>
+
+                <!-- Pending Fees -->
+                <div style="background:#fee2e2; padding:18px; border-radius:12px; text-align:center;">
+                    <h3>⏳ Pending Fees</h3>
+                    <h2 id="dashDueFees">₹0</h2>
+                </div>
+
+            </div>
+
+            <!-- Fee Collection Progress -->
+            <div style="background:white;padding:18px;margin-top:15px;border-radius:12px;box-shadow:0 2px 8px #ccc;">
+
+                <h3>📈 Fee Collection Progress</h3>
+
+                <div style="background:#e5e7eb;height:22px;border-radius:20px;overflow:hidden;">
+                    <div id="feeProgressBar" style="width:0%;height:100%;background:linear-gradient(90deg,#16a34a,#22c55e);border-radius:20px;"></div>
+                </div>
+
+                <p id="feeProgressText" style="text-align:center;font-weight:bold;">
+                    0% Fees Collected
+                </p>
+
+            </div>
+
+        </div>
+
     </div>
-
-    <p id="feeProgressText" style="text-align:center;font-weight:bold;">
-        0% Fees Collected
-    </p>
-
-</div>
-</div>
-   
-<!-- Quick Actions -->
-<div style="background:white;padding:15px;margin:15px 0;border-radius:12px;box-shadow:0 2px 8px #ccc;">
-
-    <h3>⚡ Quick Actions</h3>
-
-    
-<button onclick="showPage('enrollPage')">
-    ➕ Enroll Student
-</button>
-
-<button onclick="showPage('feePaymentPage')">
-    💰 Fee Payment
-</button>
-
-<button onclick="showPage('studentListPage')">
-    👨‍🎓 Student List
-</button>
-
-<button onclick="showPage('pendingFeesPage'); showPendingFees()">
-    ⏳ Pending Fees
-</button>
-    <button onclick="showPage('feeReportPage')">
-    📊 Fee Report
-</button>
-
-<button onclick="showPage('feeAlertPage')">
-    🔔 Low Fee Alert
-    <button onclick="showPage('schoolSettingsPage')">
-    🏫 School Settings
-</button>
-</button>
-
 
 </div>
     <!-- FEE PAYMENT PAGE -->
