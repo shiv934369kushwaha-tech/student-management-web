@@ -250,7 +250,7 @@
     ➕ Enroll Student
 </button>
 
-<button onclick="showPage('studentListPage')">
+<button onclick="showPage('feePaymentPage')">
     💰 Fee Payment
 </button>
 
@@ -258,10 +258,20 @@
     👨‍🎓 Student List
 </button>
 
-<button onclick="showPage('studentListPage'); showPendingFees()">
+<button onclick="showPage('pendingFeesPage'); showPendingFees()">
     ⏳ Pending Fees
 </button>
 
+
+</div>
+    <!-- FEE PAYMENT PAGE -->
+<div id="feePaymentPage" class="page" style="display:none;">
+
+    <button onclick="showDashboard()">🏠 Back to Dashboard</button>
+
+    <h2>💰 Fee Payment</h2>
+
+    <p>Fee Payment section</p>
 
 </div>
 
@@ -295,7 +305,13 @@ function calculateDue() {
     document.getElementById("dueFees").value = total - paid;
 }
 </script>
+<!-- PENDING FEES PAGE -->
+<div id="pendingFeesPage" class="page" style="display:none;">
 
+    <button onclick="showDashboard()">🏠 Back to Dashboard</button>
+    <h2>⏳ Pending Fees</h2>
+
+</div>
 <!-- STUDENT LIST PAGE -->
 <div id="studentListPage" class="page" style="display:none;">
 
@@ -992,9 +1008,14 @@ function saveSchoolName() {
 function showPage(pageId) {
     document.getElementById("dashboard").style.display = "none";
     document.getElementById("studentPage").style.display = "none";
+    document.getElementById("feePaymentPage").style.display = "none";
     document.getElementById("enrollPage").style.display = "none";
     document.getElementById("studentListPage").style.display = "none";
-
+document.getElementById("pendingFeesPage").style.display = "none";
+    document.getElementById("feeReportPage").style.display = "none";
+    document.getElementById("feeAlertPage").style.display = "none";
+    document.getElementById("schoolSettingsPage").style.display = "none";
+    
     document.getElementById(pageId).style.display = "block";
     window.scrollTo({top: 0, behavior: "smooth"});
 }
@@ -1004,6 +1025,12 @@ function showDashboard() {
     document.getElementById("studentPage").style.display = "none";
     document.getElementById("enrollPage").style.display = "none";
     document.getElementById("studentListPage").style.display = "none";
+    document.getElementById("pendingFeesPage").style.display = "none";
+    document.getElementById("feeReportPage").style.display = "none";
+    document.getElementById("feeAlertPage").style.display = "none";
+    document.getElementById("schoolSettingsPage").style.display = "none";
+    document.getElementById("feePaymentPage").style.display = "none";
+
     window.scrollTo({top: 0, behavior: "smooth"});
 }
 </script>
