@@ -192,9 +192,76 @@
 
 
 <div class="container" style="display:none;">
+    <!-- Dashboard -->
+<div id="dashboard" style="margin-bottom:20px;">
+
+    <h2 style="color:#1e40af;">📊 Admin Dashboard</h2>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px;">
+
+        <!-- Total Students -->
+        <div style="background:#dbeafe; padding:18px; border-radius:12px; text-align:center;">
+            <h3>👨‍🎓 Total Students</h3>
+            <h2 id="dashStudents">0</h2>
+        </div>
+
+        <!-- Total Fees -->
+        <div style="background:#dcfce7; padding:18px; border-radius:12px; text-align:center;">
+            <h3>💰 Total Fees</h3>
+            <h2 id="dashTotalFees">₹0</h2>
+        </div>
+
+        <!-- Paid Fees -->
+        <div style="background:#d1fae5; padding:18px; border-radius:12px; text-align:center;">
+            <h3>✅ Paid Fees</h3>
+            <h2 id="dashPaidFees">₹0</h2>
+        </div>
+
+        <!-- Pending Fees -->
+        <div style="background:#fee2e2; padding:18px; border-radius:12px; text-align:center;">
+            <h3>⏳ Pending Fees</h3>
+            <h2 id="dashDueFees">₹0</h2>
+        </div>
+
+    </div>
+    <!-- Fee Collection Progress -->
+<div style="background:white;padding:18px;margin-top:15px;border-radius:12px;box-shadow:0 2px 8px #ccc;">
+
+    <h3>📈 Fee Collection Progress</h3>
+
+    <div style="background:#e5e7eb;height:22px;border-radius:20px;overflow:hidden;">
+        <div id="feeProgressBar" style="width:0%;height:100%;background:linear-gradient(90deg,#16a34a,#22c55e);border-radius:20px;"></div>
+    </div>
+
+    <p id="feeProgressText" style="text-align:center;font-weight:bold;">
+        0% Fees Collected
+    </p>
+
+</div>
+</div>
+    <!-- Quick Actions -->
+<div style="background:white;padding:15px;margin:15px 0;border-radius:12px;box-shadow:0 2px 8px #ccc;">
+
+    <h3>⚡ Quick Actions</h3>
+
+    <button onclick="document.getElementById('newName').scrollIntoView({behavior:'smooth'})">
+    ➕ Enroll Student
+</button>
+    <button onclick="document.getElementById('studentBody').scrollIntoView({behavior:'smooth'})">
+    💰 Fee Payment
+</button>
+   <button onclick="document.getElementById('studentBody').scrollIntoView({behavior:'smooth'})">
+    👨‍🎓 Student List
+</button>
+    <button onclick="document.getElementById('feeReport').scrollIntoView({behavior:'smooth'})">
+    ⏳ Pending Fees
+</button>
+
+</div>
     <h2>Student Management</h2>
 
     <h3>Add New Student</h3>
+    <input type="text" id="newName" placeholder="Student Name">
 
     <input type="text" id="newName" placeholder="Student Name">
     <input type="text" id="newClass" placeholder="Class">
@@ -307,6 +374,38 @@ function saveStudents() {
     if (window.isAdminLoggedIn && window.saveOnlineStudents) {
         window.saveOnlineStudents(students);
     }
+
+    if (typeof updateDashboard === "function") {
+        updateDashboard();
+    }
+}
+    function updateDashboard() {
+    let totalStudents = students.length;
+
+    let totalFees = students.reduce((sum, s) =>
+        sum + Number(s.totalFees || 0), 0);
+
+    let paidFees = students.reduce((sum, s) =>
+        sum + Number(s.paidFees || 0), 0);
+
+    let dueFees = students.reduce((sum, s) =>
+        sum + Math.max(
+            0,
+            Number(s.totalFees || 0) - Number(s.paidFees || 0)
+        ), 0);
+
+    let percentage = totalFees > 0
+        ? Math.round((paidFees / totalFees) * 100)
+        : 0;
+
+    document.getElementById("dashStudents").textContent = totalStudents;
+    document.getElementById("dashTotalFees").textContent = "₹" + totalFees;
+    document.getElementById("dashPaidFees").textContent = "₹" + paidFees;
+    document.getElementById("dashDueFees").textContent = "₹" + dueFees;
+
+    document.getElementById("feeProgressBar").style.width = percentage + "%";
+    document.getElementById("feeProgressText").textContent =
+        percentage + "% Fees Collected (₹" + paidFees + " / ₹" + totalFees + ")";
 }
     window.applyOnlineStudents = function(data) {
     students = data;
