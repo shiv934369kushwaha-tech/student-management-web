@@ -245,21 +245,23 @@
 
     <h3>⚡ Quick Actions</h3>
 
-    <button onclick="document.getElementById('dashboard').style.display='none'; document.getElementById('studentPage').style.display='block'; document.getElementById('newName').scrollIntoView({behavior:'smooth'});">
-        ➕ Enroll Student
-    </button>
+    
+<button onclick="showPage('enrollPage')">
+    ➕ Enroll Student
+</button>
 
-    <button onclick="document.getElementById('dashboard').style.display='none'; document.getElementById('studentPage').style.display='block'; document.getElementById('studentBody').scrollIntoView({behavior:'smooth'});">
-        💰 Fee Payment
-    </button>
+<button onclick="showPage('studentListPage')">
+    💰 Fee Payment
+</button>
 
-    <button onclick="document.getElementById('dashboard').style.display='none'; document.getElementById('studentPage').style.display='block'; document.getElementById('studentTable').scrollIntoView({behavior:'smooth'});">
-        👨‍🎓 Student List
-    </button>
+<button onclick="showPage('studentListPage')">
+    👨‍🎓 Student List
+</button>
 
-    <button onclick="document.getElementById('dashboard').style.display='none'; document.getElementById('studentPage').style.display='block'; document.getElementById('feeReport').scrollIntoView({behavior:'smooth'});">
-        ⏳ Pending Fees
-    </button>
+<button onclick="showPage('studentListPage'); showPendingFees()">
+    ⏳ Pending Fees
+</button>
+
 
 </div>
 
@@ -972,3 +974,25 @@ function saveSchoolName() {
     savedSchoolName = name;
     alert("School Name Saved!");
 }
+
+</script>
+
+<script>
+function showPage(pageId) {
+    document.getElementById("dashboard").style.display = "none";
+    document.getElementById("studentPage").style.display = "none";
+    document.getElementById("enrollPage").style.display = "none";
+    document.getElementById("studentListPage").style.display = "none";
+
+    document.getElementById(pageId).style.display = "block";
+    window.scrollTo({top: 0, behavior: "smooth"});
+}
+
+function showDashboard() {
+    document.getElementById("dashboard").style.display = "block";
+    document.getElementById("studentPage").style.display = "none";
+    document.getElementById("enrollPage").style.display = "none";
+    document.getElementById("studentListPage").style.display = "none";
+    window.scrollTo({top: 0, behavior: "smooth"});
+}
+</script>
