@@ -193,7 +193,7 @@
 
 <div class="container" style="display:none;">
     <!-- Dashboard -->
-<div id="dashboard" style="margin-bottom:20px;">
+<div id="dashboard" class="page" style="margin-bottom:20px;">
 
     <h2 style="color:#1e40af;">📊 Admin Dashboard</h2>
 
@@ -239,25 +239,34 @@
 
 </div>
 </div>
-    <!-- Quick Actions -->
+   
+<!-- Quick Actions -->
 <div style="background:white;padding:15px;margin:15px 0;border-radius:12px;box-shadow:0 2px 8px #ccc;">
 
     <h3>⚡ Quick Actions</h3>
 
-    <button onclick="document.getElementById('newName').scrollIntoView({behavior:'smooth'})">
-    ➕ Enroll Student
-</button>
-    <button onclick="document.getElementById('studentBody').scrollIntoView({behavior:'smooth'})">
-    💰 Fee Payment
-</button>
-   <button onclick="document.getElementById('studentBody').scrollIntoView({behavior:'smooth'})">
-    👨‍🎓 Student List
-</button>
-    <button onclick="document.getElementById('feeReport').scrollIntoView({behavior:'smooth'})">
-    ⏳ Pending Fees
-</button>
+    <button onclick="document.getElementById('dashboard').style.display='none'; document.getElementById('studentPage').style.display='block'; document.getElementById('newName').scrollIntoView({behavior:'smooth'});">
+        ➕ Enroll Student
+    </button>
+
+    <button onclick="document.getElementById('dashboard').style.display='none'; document.getElementById('studentPage').style.display='block'; document.getElementById('studentBody').scrollIntoView({behavior:'smooth'});">
+        💰 Fee Payment
+    </button>
+
+    <button onclick="document.getElementById('dashboard').style.display='none'; document.getElementById('studentPage').style.display='block'; document.getElementById('studentTable').scrollIntoView({behavior:'smooth'});">
+        👨‍🎓 Student List
+    </button>
+
+    <button onclick="document.getElementById('dashboard').style.display='none'; document.getElementById('studentPage').style.display='block'; document.getElementById('feeReport').scrollIntoView({behavior:'smooth'});">
+        ⏳ Pending Fees
+    </button>
 
 </div>
+
+    <div id="studentPage" class="page" style="display:none;">
+        <button onclick="document.getElementById('studentPage').style.display='none'; document.getElementById('dashboard').style.display='block'; window.scrollTo({top:0,behavior:'smooth'});" style="background:#0f172a;margin-bottom:12px;">
+    🏠 Back to Dashboard
+</button>
     <h2>Student Management</h2>
 
     <h3>Add New Student</h3>
@@ -318,6 +327,7 @@ oninput="renderStudents()">
         </thead>
         <tbody id="studentBody"></tbody>
     </table>
+        </div>
   <!-- Fee Report -->
 <div id="feeReport" style="border:2px solid green; padding:15px; margin:10px; border-radius:10px;">
     <h3>💰 Fee Report</h3>
