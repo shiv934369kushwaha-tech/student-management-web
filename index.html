@@ -193,86 +193,134 @@
 
 <div class="container" style="display:none;">
   
-   <!-- DASHBOARD -->
+ 
+<!-- DASHBOARD -->
 <div id="dashboard" class="page" style="margin-bottom:20px;">
 
-    <div style="display:grid; grid-template-columns:300px 1fr; gap:15px; align-items:start;">
+    <!-- ADMIN DASHBOARD -->
+    <div style="background:white;padding:15px;border-radius:12px;box-shadow:0 2px 8px #ccc;">
 
-    <!-- LEFT COLUMN: QUICK ACTIONS -->
-<div style="background:white;padding:15px;margin:0;border-radius:12px;box-shadow:0 2px 8px #ccc;">
+        <h2 style="color:#1e40af;">📊 Admin Dashboard</h2>
 
-    <h3>⚡ Quick Actions</h3>
+        <div style="display:flex;flex-direction:column;gap:10px;">
 
-    <button onclick="showPage('enrollPage')">➕ Enroll Student</button>
-
-    <button onclick="showPage('feePaymentPage')">💰 Fee Payment</button>
-
-    <button onclick="showPage('pendingFeesPage'); showPendingFees()">⏳ Pending Fees</button>
-
-    <button onclick="showPage('feeAlertPage')">🔔 Low Fee Alert</button>
-
-    <button onclick="showPage('schoolSettingsPage')">🏫 School Settings</button>
-
-    <button onclick="showPage('studentListPage')">👨‍🎓 Student List</button>
-
-    <button onclick="showPage('feeReportPage')">📊 Fee Report</button>
-
-</div>
-
-</div>
-        <!-- RIGHT COLUMN: ADMIN DASHBOARD -->
-        <div>
-
-            <h2 style="color:#1e40af; text-align:center;">📊 Admin Dashboard</h2>
-
-            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px;">
-
-                <!-- Total Students -->
-                <div style="background:#dbeafe; padding:18px; border-radius:12px; text-align:center;">
-                    <h3>👨‍🎓 Total Students</h3>
-                    <h2 id="dashStudents">0</h2>
-                </div>
-
-                <!-- Total Fees -->
-                <div style="background:#dcfce7; padding:18px; border-radius:12px; text-align:center;">
-                    <h3>💰 Total Fees</h3>
-                    <h2 id="dashTotalFees">₹0</h2>
-                </div>
-
-                <!-- Paid Fees -->
-                <div style="background:#d1fae5; padding:18px; border-radius:12px; text-align:center;">
-                    <h3>✅ Paid Fees</h3>
-                    <h2 id="dashPaidFees">₹0</h2>
-                </div>
-
-                <!-- Pending Fees -->
-                <div style="background:#fee2e2; padding:18px; border-radius:12px; text-align:center;">
-                    <h3>⏳ Pending Fees</h3>
-                    <h2 id="dashDueFees">₹0</h2>
-                </div>
-
+            <div style="background:#dbeafe;padding:15px;border-radius:10px;text-align:center;">
+                <h3>👨‍🎓 Total Students</h3>
+                <h2 id="dashStudents">0</h2>
             </div>
 
-            <!-- Fee Collection Progress -->
-            <div style="background:white;padding:18px;margin-top:15px;border-radius:12px;box-shadow:0 2px 8px #ccc;">
-
-                <h3>📈 Fee Collection Progress</h3>
-
-                <div style="background:#e5e7eb;height:22px;border-radius:20px;overflow:hidden;">
-                    <div id="feeProgressBar" style="width:0%;height:100%;background:linear-gradient(90deg,#16a34a,#22c55e);border-radius:20px;"></div>
-                </div>
-
-                <p id="feeProgressText" style="text-align:center;font-weight:bold;">
-                    0% Fees Collected
-                </p>
-
+            <div style="background:#dcfce7;padding:15px;border-radius:10px;text-align:center;">
+                <h3>💰 Total Fees</h3>
+                <h2 id="dashTotalFees">₹0</h2>
             </div>
+
+            <div style="background:#d1fae5;padding:15px;border-radius:10px;text-align:center;">
+                <h3>✅ Paid Fees</h3>
+                <h2 id="dashPaidFees">₹0</h2>
+            </div>
+
+            <div style="background:#fee2e2;padding:15px;border-radius:10px;text-align:center;">
+                <h3>⏳ Pending Fees</h3>
+                <h2 id="dashDueFees">₹0</h2>
+            </div>
+
+        </div>
+
+        <!-- FEE COLLECTION PROGRESS -->
+        <div style="background:#f8fafc;padding:15px;margin-top:15px;border-radius:12px;">
+
+            <h3>📈 Fee Collection Progress</h3>
+
+            <div style="background:#e5e7eb;height:22px;border-radius:20px;overflow:hidden;">
+                <div id="feeProgressBar"
+                style="width:0%;height:100%;background:linear-gradient(90deg,#16a34a,#22c55e);border-radius:20px;">
+                </div>
+            </div>
+
+            <p id="feeProgressText" style="text-align:center;font-weight:bold;">
+                0% Fees Collected
+            </p>
 
         </div>
 
     </div>
 
+    <!-- STUDENT MANAGEMENT -->
+    <div style="margin-top:15px;border-radius:10px;overflow:hidden;">
+
+        <div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'"
+        style="background:linear-gradient(90deg,#4c1d95,#e11d48);color:white;padding:15px;font-weight:bold;font-size:18px;cursor:pointer;">
+            👨‍🎓 Student Management ▼
+        </div>
+
+        <div style="display:none;background:#eeeeee;">
+
+            <button onclick="showPage('enrollPage')"
+            style="width:100%;text-align:left;padding:14px;background:#eeeeee;color:#222;border:0;border-bottom:1px solid #ddd;">
+                ➕ Enroll Student
+            </button>
+
+            <button onclick="showPage('studentListPage')"
+            style="width:100%;text-align:left;padding:14px;background:#eeeeee;color:#222;border:0;border-bottom:1px solid #ddd;">
+                👨‍🎓 Student List
+            </button>
+
+        </div>
+    </div>
+
+    <!-- FEE MANAGEMENT -->
+    <div style="margin-top:15px;border-radius:10px;overflow:hidden;">
+
+        <div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'"
+        style="background:linear-gradient(90deg,#4c1d95,#e11d48);color:white;padding:15px;font-weight:bold;font-size:18px;cursor:pointer;">
+            💰 Fee Management ▼
+        </div>
+
+        <div style="display:none;background:#eeeeee;">
+
+            <button onclick="showPage('feePaymentPage')"
+            style="width:100%;text-align:left;padding:14px;background:#eeeeee;color:#222;border:0;border-bottom:1px solid #ddd;">
+                💰 Fee Payment
+            </button>
+
+            <button onclick="showPage('pendingFeesPage')"
+            style="width:100%;text-align:left;padding:14px;background:#eeeeee;color:#222;border:0;border-bottom:1px solid #ddd;">
+                ⏳ Pending Fees
+            </button>
+
+        </div>
+    </div>
+
+    <!-- REPORTS & SETTINGS -->
+    <div style="margin-top:15px;border-radius:10px;overflow:hidden;">
+
+        <div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'"
+        style="background:linear-gradient(90deg,#4c1d95,#e11d48);color:white;padding:15px;font-weight:bold;font-size:18px;cursor:pointer;">
+            📋 Reports & Settings ▼
+        </div>
+
+        <div style="display:none;background:#eeeeee;">
+
+            <button onclick="showPage('feeReportPage')"
+            style="width:100%;text-align:left;padding:14px;background:#eeeeee;color:#222;border:0;border-bottom:1px solid #ddd;">
+                📊 Fee Report
+            </button>
+
+            <button onclick="showPage('feeAlertPage')"
+            style="width:100%;text-align:left;padding:14px;background:#eeeeee;color:#222;border:0;border-bottom:1px solid #ddd;">
+                🔔 Low Fee Alert
+            </button>
+
+            <button onclick="showPage('schoolSettingsPage')"
+            style="width:100%;text-align:left;padding:14px;background:#eeeeee;color:#222;border:0;border-bottom:1px solid #ddd;">
+                🏫 School Settings
+            </button>
+
+        </div>
+    </div>
+
 </div>
+
     <!-- FEE PAYMENT PAGE -->
 <div id="feePaymentPage" class="page" style="display:none;">
 
