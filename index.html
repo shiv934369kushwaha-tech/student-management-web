@@ -322,10 +322,27 @@ function calculateDue() {
 }
 </script>
 <!-- PENDING FEES PAGE -->
+<!-- PENDING FEES PAGE -->
 <div id="pendingFeesPage" class="page" style="display:none;">
 
     <button onclick="showDashboard()">🏠 Back to Dashboard</button>
+
     <h2>⏳ Pending Fees</h2>
+
+    <h3 id="pendingTotal">Total Pending: ₹0</h3>
+
+    <table border="1" cellpadding="10" style="width:100%; border-collapse:collapse;">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Class</th>
+                <th>Total Fees</th>
+                <th>Paid</th>
+                <th>Due</th>
+            </tr>
+        </thead>
+        <tbody id="pendingFeesBody"></tbody>
+    </table>
 
 </div>
 <!-- STUDENT LIST PAGE -->
@@ -795,6 +812,35 @@ function showPendingFees() {
         select.appendChild(option);
     });
 }
+    function renderPendingFees() {
+    let body = document.getElementById("pendingFeesBody");
+    let totalPending = 0;
+
+    body.innerHTML = "";
+
+    let pendingStudents = students.filter(function(student) {
+        return Number(student.dueFees || 0) > 0;
+    });
+
+    pendingStudents.forEach(function(student) {
+        totalPending += Number(student.dueFees || 0);
+
+        let row = body.insertRow();
+
+        row.insertCell(0).textContent = student.name;
+        row.insertCell(1).textContent = student.studentClass;
+        row.insertCell(2).textContent = "₹" + (student.totalFees || 0);
+        row.insertCell(3).textContent = "₹" + (student.paidFees || 0);
+        row.insertCell(4).textContent = "₹" + (student.dueFees || 0);
+    });
+
+    document.getElementById("pendingTotal").textContent =
+        "Total Pending: ₹" + totalPending;
+
+    if (pendingStudents.length === 0) {
+        body.innerHTML = "<tr><td colspan='5'>No Pending Fees 🎉</td></tr>";
+    }
+}
     function makeFeePayment() {
     let select = document.getElementById("feeStudentSelect");
     let index = select.value;
@@ -1084,6 +1130,9 @@ function showPage(pageId) {
     if (targetPage) {
         targetPage.style.display = "block";
     }
+    if (pageId === "pendingFeesPage") {
+    renderPendingFees();
+}
     if (pageId === "feePaymentPage") {
     loadFeeStudents();
 }
