@@ -654,10 +654,10 @@ students[index].paymentHistory.push({
     date: new Date().toLocaleDateString(),
     paymentMode: paymentMode
 });
-  saveStudents();
+ 
     students[index].paidFees = Number(students[index].paidFees || 0) + amount;
     students[index].dueFees = Number(students[index].totalFees || 0) - students[index].paidFees;
-
+saveStudents();
     localStorage.setItem("studentData", JSON.stringify(students));
 
     renderStudents();
