@@ -198,27 +198,31 @@
 
     <div style="display:grid; grid-template-columns:300px 1fr; gap:15px; align-items:start;">
 
-        <!-- LEFT COLUMN: QUICK ACTIONS -->
-        <div style="background:white;padding:15px;margin:0;border-radius:12px;box-shadow:0 2px 8px #ccc;">
+     <!-- LEFT COLUMN: QUICK ACTIONS -->
+<div style="background:white;padding:15px;margin:0;border-radius:12px;box-shadow:0 2px 8px #ccc;">
 
-            <h3>⚡ Quick Actions</h3>
+    <h3>⚡ Quick Actions</h3>
 
-            <button onclick="showPage('enrollPage')">➕ Enroll Student</button>
+    <button onclick="showPage('enrollPage')">➕ Enroll Student</button>
 
-            <button onclick="showPage('feePaymentPage')">💰 Fee Payment</button>
+    <button onclick="showPage('feePaymentPage')">💰 Fee Payment</button>
 
-            <button onclick="showPage('studentListPage')">👨‍🎓 Student List</button>
+    <button onclick="showPage('pendingFeesPage'); showPendingFees()">⏳ Pending Fees</button>
 
-            <button onclick="showPage('pendingFeesPage'); showPendingFees()">⏳ Pending Fees</button>
+    <button onclick="showPage('feeAlertPage')">🔔 Low Fee Alert</button>
 
-            <button onclick="showPage('feeReportPage')">📊 Fee Report</button>
+    <!-- BOTTOM BUTTONS -->
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;">
 
-            <button onclick="showPage('feeAlertPage')">🔔 Low Fee Alert</button>
+        <button onclick="showPage('studentListPage')">👨‍🎓 Student List</button>
 
-            <button onclick="showPage('schoolSettingsPage')">🏫 School Settings</button>
+        <button onclick="showPage('feeReportPage')">📊 Fee Report</button>
 
-        </div>
+        <button onclick="showPage('schoolSettingsPage')">🏫 School Settings</button>
 
+    </div>
+
+</div>
         <!-- RIGHT COLUMN: ADMIN DASHBOARD -->
         <div>
 
