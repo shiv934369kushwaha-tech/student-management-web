@@ -1006,31 +1006,36 @@ function saveSchoolName() {
 
 <script>
 function showPage(pageId) {
-    document.getElementById("dashboard").style.display = "none";
-    document.getElementById("studentPage").style.display = "none";
-    document.getElementById("feePaymentPage").style.display = "none";
-    document.getElementById("enrollPage").style.display = "none";
-    document.getElementById("studentListPage").style.display = "none";
-document.getElementById("pendingFeesPage").style.display = "none";
-    document.getElementById("feeReportPage").style.display = "none";
-    document.getElementById("feeAlertPage").style.display = "none";
-    document.getElementById("schoolSettingsPage").style.display = "none";
-    
-    document.getElementById(pageId).style.display = "block";
+
+    let pages = [
+        "dashboard",
+        "studentPage",
+        "feePaymentPage",
+        "enrollPage",
+        "studentListPage",
+        "pendingFeesPage",
+        "feeReportPage",
+        "feeAlertPage",
+        "schoolSettingsPage"
+    ];
+
+    pages.forEach(function(id) {
+        let page = document.getElementById(id);
+        if (page) {
+            page.style.display = "none";
+        }
+    });
+
+    let targetPage = document.getElementById(pageId);
+
+    if (targetPage) {
+        targetPage.style.display = "block";
+    }
+
     window.scrollTo({top: 0, behavior: "smooth"});
 }
 
 function showDashboard() {
-    document.getElementById("dashboard").style.display = "block";
-    document.getElementById("studentPage").style.display = "none";
-    document.getElementById("enrollPage").style.display = "none";
-    document.getElementById("studentListPage").style.display = "none";
-    document.getElementById("pendingFeesPage").style.display = "none";
-    document.getElementById("feeReportPage").style.display = "none";
-    document.getElementById("feeAlertPage").style.display = "none";
-    document.getElementById("schoolSettingsPage").style.display = "none";
-    document.getElementById("feePaymentPage").style.display = "none";
-
-    window.scrollTo({top: 0, behavior: "smooth"});
+    showPage("dashboard");
 }
 </script>
