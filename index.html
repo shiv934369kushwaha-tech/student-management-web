@@ -265,58 +265,62 @@
 
 </div>
 
-    <div id="studentPage" class="page" style="display:none;">
-        <button onclick="document.getElementById('studentPage').style.display='none'; document.getElementById('dashboard').style.display='block'; window.scrollTo({top:0,behavior:'smooth'});" style="background:#0f172a;margin-bottom:12px;">
-    🏠 Back to Dashboard
-</button>
-        <button onclick="showDashboard()" style="background:#0f172a;margin-bottom:12px;">
-🏠 Back to Dashboard
-</button>
-    <h2>Student Management</h2>
+<!-- OLD PAGE -->
+<div id="studentPage" class="page" style="display:none;"></div>
+
+<!-- ENROLL PAGE -->
 <div id="enrollPage" class="page" style="display:none;">
-    <h3>Add New Student</h3>
-    <input type="text" id="newName" placeholder="Student Name">
+
+    <button onclick="showDashboard()">🏠 Back to Dashboard</button>
+    <h2>➕ Enroll New Student</h2>
 
     <input type="text" id="newName" placeholder="Student Name">
     <input type="text" id="newClass" placeholder="Class">
     <input type="text" id="newCity" placeholder="City">
     <input type="number" id="newMarks" placeholder="Marks">
-<input type="number" id="newFees" placeholder="Total Fees" oninput="calculateDue()">
-<input type="number" id="paidFees" placeholder="Paid Fees" oninput="calculateDue()">
-  <script>
+
+    <input type="number" id="newFees" placeholder="Total Fees" oninput="calculateDue()">
+    <input type="number" id="paidFees" placeholder="Paid Fees" oninput="calculateDue()">
+    <input type="number" id="dueFees" placeholder="Due Fees" readonly>
+
+    <br>
+    <button onclick="addStudent()">Add Student</button>
+
+</div>
+
+<script>
 function calculateDue() {
     let total = Number(document.getElementById("newFees").value);
     let paid = Number(document.getElementById("paidFees").value);
     document.getElementById("dueFees").value = total - paid;
 }
-  </script>
-  <input type="number" id="dueFees" placeholder="Due Fees" readonly>
+</script>
 
-    <br>
-    </div>
-    <button onclick="addStudent()">Add Student</button>
-  <h3 id="totalCount">Total Students: 3</h3>
-  <h3 id="averageMarks">Average Marks: 0</h3>
-  <h3 id="topper">Topper: None</h3>
-  <h3 id="passCount">Pass: 0</h3>
-<h3 id="failCount">Fail: 0</h3>
-  <h3 id="totalFeeSummary">Total Fees: ₹0</h3>
-<h3 id="paidFeeSummary">Paid Fees: ₹0</h3>
-<h3 id="dueFeeSummary">Due Fees: ₹0</h3>
-  <h3 id="feePendingCount">Fees Pending Students: 0</h3>
+<!-- STUDENT LIST PAGE -->
 <div id="studentListPage" class="page" style="display:none;">
-<button onclick="showDashboard()">🏠 Back to Dashboard</button>
-<h2>👨‍🎓 Student List</h2>
+
+    <button onclick="showDashboard()">🏠 Back to Dashboard</button>
+    <h2>👨‍🎓 Student List</h2>
+
+    <h3 id="totalCount">Total Students: 3</h3>
+    <h3 id="averageMarks">Average Marks: 0</h3>
+    <h3 id="topper">Topper: None</h3>
+    <h3 id="passCount">Pass: 0</h3>
+    <h3 id="failCount">Fail: 0</h3>
+    <h3 id="totalFeeSummary">Total Fees: ₹0</h3>
+    <h3 id="paidFeeSummary">Paid Fees: ₹0</h3>
+    <h3 id="dueFeeSummary">Due Fees: ₹0</h3>
+    <h3 id="feePendingCount">Fees Pending Students: 0</h3>
+
     <h3>Search Student</h3>
+    <input type="text" id="searchInput"
+    placeholder="Search student name..."
+    oninput="renderStudents()">
 
-<input type="text" id="searchInput"
-placeholder="Search student name..."
-oninput="renderStudents()">
+    <button onclick="showPendingFees()">Pending Fees</button>
+    <button onclick="renderStudents()">Show All Students</button>
+    <button onclick="downloadCSV()">Download Student Report</button>
 
-<button onclick="showPendingFees()">Pending Fees</button>
-  <button onclick="renderStudents()">Show All Students</button>
-
-<button onclick="downloadCSV()">Download Student Report</button>
     <table id="studentTable">
         <thead>
             <tr>
@@ -324,18 +328,18 @@ oninput="renderStudents()">
                 <th>Class</th>
                 <th>City</th>
                 <th>Marks</th>
-<th>Percentage</th>
-<th>Grade</th>
-              <th>Total Fees</th>
-<th>Paid Fees</th>
-<th>Due Fees</th>
-<th>Action</th>
-              
+                <th>Percentage</th>
+                <th>Grade</th>
+                <th>Total Fees</th>
+                <th>Paid Fees</th>
+                <th>Due Fees</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody id="studentBody"></tbody>
     </table>
-    </div>
+
+</div>
         </div>
   <!-- Fee Report -->
 <div id="feeReport" style="border:2px solid green; padding:15px; margin:10px; border-radius:10px;">
