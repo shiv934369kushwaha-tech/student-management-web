@@ -261,6 +261,16 @@
 <button onclick="showPage('pendingFeesPage'); showPendingFees()">
     ⏳ Pending Fees
 </button>
+    <button onclick="showPage('feeReportPage')">
+    📊 Fee Report
+</button>
+
+<button onclick="showPage('feeAlertPage')">
+    🔔 Low Fee Alert
+    <button onclick="showPage('schoolSettingsPage')">
+    🏫 School Settings
+</button>
+</button>
 
 
 </div>
@@ -390,41 +400,50 @@ function calculateDue() {
 
 </div>
         </div>
-  <!-- Fee Report -->
-<div id="feeReport" style="border:2px solid green; padding:15px; margin:10px; border-radius:10px;">
-    <h3>💰 Fee Report</h3>
-    <p id="reportStudents">Total Students: 0</p>
-    <p id="reportTotalFees">Total Fees: ₹0</p>
-    <p id="reportPaidFees">Total Paid: ₹0</p>
-    <p id="reportDueFees">Total Due: ₹0</p>
+ <!-- FEE REPORT PAGE -->
+<div id="feeReportPage" class="page" style="display:none;">
+
+    <button onclick="showDashboard()">🏠 Back to Dashboard</button>
+
+    <div id="feeReport" style="border:2px solid green; padding:15px; margin:10px; border-radius:10px;">
+        <h3>💰 Fee Report</h3>
+        <p id="reportStudents">Total Students: 0</p>
+        <p id="reportTotalFees">Total Fees: ₹0</p>
+        <p id="reportPaidFees">Total Paid: ₹0</p>
+        <p id="reportDueFees">Total Due: ₹0</p>
+    </div>
+
 </div>
-  <div style="border:2px solid #333; padding:15px; margin:10px; border-radius:10px;">
-    <!-- Low Fee Alert -->
-<div style="border:2px solid red; padding:15px; margin:10px; border-radius:10px;">
-    <h3>🔔 Low Fee Alert</h3>
-    <div id="lowFeeList"></div>
+
+<!-- LOW FEE ALERT PAGE -->
+<div id="feeAlertPage" class="page" style="display:none;">
+
+    <button onclick="showDashboard()">🏠 Back to Dashboard</button>
+
+    <div style="border:2px solid red; padding:15px; margin:10px; border-radius:10px;">
+        <h3>🔔 Low Fee Alert</h3>
+        <div id="lowFeeList"></div>
+    </div>
+
 </div>
+
+<!-- SCHOOL SETTINGS PAGE -->
+<div id="schoolSettingsPage" class="page" style="display:none;">
+
+    <button onclick="showDashboard()">🏠 Back to Dashboard</button>
+
     <h3>🏫 School Settings</h3>
 
     <input type="text" id="schoolNameInput"
     placeholder="Enter School Name"
     style="padding:10px; width:90%;">
+
     <button onclick="saveSchoolName()"
     style="padding:10px; margin-top:10px;">
         Save School Name
     </button>
-  </div>
-<div id="receiptBox" style="display:none; border:2px solid black; padding:15px; margin:10px;">
-    <div id="receiptBox">
-    <h2>🏫 Fee Receipt</h2>
 
-    <pre id="receiptText"></pre>
-
-    <button onclick="window.print()">Print Receipt</button>
-    </div>
 </div>
-</div>
-
 <script>
 
     const defaultStudents = [
