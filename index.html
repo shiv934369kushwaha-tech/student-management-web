@@ -271,8 +271,24 @@
 
     <h2>💰 Fee Payment</h2>
 
-    <p>Fee Payment section</p>
+   <h3>Select Student for Fee Payment</h3>
 
+<select id="feeStudentSelect">
+    <option value="">-- Select Student --</option>
+</select>
+
+<br><br>
+
+<button onclick="makeFeePayment()">💰 Pay Fees</button>
+
+<button onclick="viewFeeHistory()">📜 Payment History</button>
+
+<h3>🧾 Payment Receipt</h3>
+
+<div id="feeReceipt" style="display:none;">
+    <pre id="feeReceiptText"></pre>
+    <button onclick="printReceipt()">🖨️ Print Receipt</button>
+</div>
 </div>
 
 <!-- OLD PAGE -->
@@ -767,6 +783,41 @@ function showPendingFees() {
         rows[i].style.display = due > 0 ? "" : "none";
     }
 }
+    function loadFeeStudents() {
+    let select = document.getElementById("feeStudentSelect");
+
+    select.innerHTML = '<option value="">-- Select Student --</option>';
+
+    students.forEach(function(student, index) {
+        let option = document.createElement("option");
+        option.value = index;
+        option.textContent = student.name + " | Due: ₹" + (student.dueFees || 0);
+        select.appendChild(option);
+    });
+}
+    function makeFeePayment() {
+    let select = document.getElementById("feeStudentSelect");
+    let index = select.value;
+
+    if (index === "") {
+        alert("Please select a student!");
+        return;
+    }
+
+    payFees(Number(index));
+}
+
+function viewFeeHistory() {
+    let select = document.getElementById("feeStudentSelect");
+    let index = select.value;
+
+    if (index === "") {
+        alert("Please select a student!");
+        return;
+    }
+
+    showPaymentHistory(Number(index));
+}
 function payFees(index) {
     let amount = Number(prompt("Enter payment amount"));
   
@@ -818,6 +869,8 @@ receipt += "========================";
   receipt += "\n\nParent Signature: ________________\n";
 receipt += "School Stamp: __________________";
   document.getElementById("receiptText").textContent = receipt;
+    document.getElementById("feeReceiptText").textContent = receipt;
+document.getElementById("feeReceipt").style.display = "block";
 document.getElementById("receiptBox").style.display = "block";
 }
 
@@ -1031,6 +1084,9 @@ function showPage(pageId) {
     if (targetPage) {
         targetPage.style.display = "block";
     }
+    if (pageId === "feePaymentPage") {
+    loadFeeStudents();
+}
 
     window.scrollTo({top: 0, behavior: "smooth"});
 }
