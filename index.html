@@ -352,7 +352,18 @@
 </button>
 
     <p id="attendanceMessage"></p>
+<hr style="margin-top:20px;">
 
+<h3>📋 Saved Attendance Report</h3>
+
+<label><b>Select Date:</b></label>
+<input type="date" id="reportAttendanceDate">
+
+<button onclick="viewAttendanceReport()">
+    🔍 View Attendance Report
+</button>
+
+<div id="attendanceReport"></div>
 </div>
 
     <!-- FEE PAYMENT PAGE -->
@@ -1323,7 +1334,39 @@ function saveAttendance() {
     document.getElementById("attendanceMessage").textContent =
         "✅ Attendance Successfully Saved!";
 }
+function viewAttendanceReport() {
+    let date = document.getElementById("reportAttendanceDate").value;
+    let report = document.getElementById("attendanceReport");
 
+    if (!date) {
+        alert("Pehle date select karo!");
+        return;
+    }
+
+    let allAttendance = JSON.parse(localStorage.getItem("attendanceData") || "{}");
+    let saved = allAttendance[date];
+
+    if (!saved) {
+        report.innerHTML = "<p>Is date ki attendance save nahi hai.</p>";
+        return;
+    }
+
+    report.innerHTML = "";
+
+    students.forEach(function(student, index) {
+        let status = saved[index] || "Not Marked";
+
+        let div = document.createElement("div");
+        div.style.padding = "10px";
+        div.style.margin = "6px 0";
+        div.style.background = "#f1f5f9";
+        div.style.borderRadius = "8px";
+
+        div.textContent = student.name + " - " + status;
+
+        report.appendChild(div);
+    });
+}
 function showDashboard() {
     showPage("dashboard");
 }
