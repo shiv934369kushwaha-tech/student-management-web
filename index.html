@@ -1242,7 +1242,7 @@ if (pageId === "attendancePage") {
 }
     window.scrollTo({top: 0, behavior: "smooth"});
 }
-
+window.showPage = showPage;
 function renderAttendance() {
     let dateInput = document.getElementById("attendanceDate");
     let list = document.getElementById("attendanceList");
