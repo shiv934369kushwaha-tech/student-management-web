@@ -49,36 +49,6 @@
             border-collapse: collapse;
             margin-top: 15px;
         }
-        
-/* DASHBOARD ACCORDION DESIGN */
-#dashboard > div[style*="margin-top:15px"] {
-    transition: all 0.3s ease;
-}
-
-#dashboard > div > div[onclick] {
-    background-size: 200% auto !important;
-    transition: all 0.3s ease;
-    border-radius: 10px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-}
-
-#dashboard > div > div[onclick]:hover {
-    background-position: right center;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 12px rgba(0,0,0,0.2);
-}
-
-#dashboard button {
-    transition: all 0.25s ease;
-    cursor: pointer;
-}
-
-#dashboard button:hover {
-    background: #dbeafe !important;
-    color: #1e40af !important;
-    padding-left: 22px !important;
-}
-
 
         th, td {
             border: 1px solid #aaa;
@@ -320,7 +290,23 @@
 
         </div>
     </div>
+<!-- ATTENDANCE MANAGEMENT -->
+<div style="margin-top:15px;border-radius:10px;overflow:hidden;">
 
+    <div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'"
+    style="background:linear-gradient(90deg,#4c1d95,#e11d48);color:white;padding:15px;font-weight:bold;font-size:18px;cursor:pointer;">
+        📅 Attendance Management ▼
+    </div>
+
+    <div style="display:none;background:#eeeeee;">
+
+        <button onclick="showPage('attendancePage')"
+        style="width:100%;text-align:left;padding:14px;background:#eeeeee;color:#222;border:0;">
+            📋 Daily Attendance Sheet
+        </button>
+
+    </div>
+</div>
     <!-- REPORTS & SETTINGS -->
     <div style="margin-top:15px;border-radius:10px;overflow:hidden;">
 
@@ -348,6 +334,21 @@
 
         </div>
     </div>
+
+</div>
+    <!-- ATTENDANCE PAGE -->
+<div id="attendancePage" class="page" style="display:none;background:white;padding:15px;border-radius:12px;">
+
+    <h2>📅 Attendance Management</h2>
+
+    <label><b>Select Date:</b></label>
+    <input type="date" id="attendanceDate">
+
+    <div id="attendanceList"></div>
+
+    <button onclick="saveAttendance()">💾 Save Attendance</button>
+
+    <p id="attendanceMessage"></p>
 
 </div>
 
@@ -1200,6 +1201,7 @@ function saveSchoolName() {
 </script>
 
 <script>
+
 function showPage(pageId) {
 
     let pages = [
@@ -1211,7 +1213,8 @@ function showPage(pageId) {
         "pendingFeesPage",
         "feeReportPage",
         "feeAlertPage",
-        "schoolSettingsPage"
+        "schoolSettingsPage",
+        "attendancePage"
     ];
 
     pages.forEach(function(id) {
@@ -1226,17 +1229,98 @@ function showPage(pageId) {
     if (targetPage) {
         targetPage.style.display = "block";
     }
+
     if (pageId === "pendingFeesPage") {
-    renderPendingFees();
-}
+        renderPendingFees();
+    }
+
     if (pageId === "feePaymentPage") {
-    loadFeeStudents();
+        loadFeeStudents();
+    }
+if (pageId === "attendancePage") {
+    renderAttendance();
+}
+    window.scrollTo({top: 0, behavior: "smooth"});
 }
 
-    window.scrollTo({top: 0, behavior: "smooth"});
+function renderAttendance() {
+    let dateInput = document.getElementById("attendanceDate");
+    let list = document.getElementById("attendanceList");
+
+    if (!dateInput.value) {
+        dateInput.value = new Date().toISOString().split("T")[0];
+    }
+
+    let allAttendance = JSON.parse(localStorage.getItem("attendanceData") || "{}");
+    let saved = allAttendance[dateInput.value] || {};
+
+    list.innerHTML = "";
+
+    if (!students || students.length === 0) {
+        list.innerHTML = "<p>Abhi koi student enrolled nahi hai.</p>";
+        return;
+    }
+
+    students.forEach(function(student, index) {
+        let div = document.createElement("div");
+        div.style.padding = "12px";
+        div.style.margin = "8px 0";
+        div.style.background = "#f1f5f9";
+        div.style.borderRadius = "8px";
+
+        let name = document.createElement("b");
+        name.textContent = student.name + " (" + student.studentClass + ")";
+
+        let select = document.createElement("select");
+        select.id = "attendance_" + index;
+        select.style.width = "100%";
+        select.style.padding = "10px";
+        select.style.marginTop = "8px";
+
+        ["Present", "Absent", "Leave"].forEach(function(status) {
+            let option = document.createElement("option");
+            option.value = status;
+            option.textContent = status;
+            select.appendChild(option);
+        });
+
+        select.value = saved[index] || "Present";
+
+        div.appendChild(name);
+        div.appendChild(select);
+        list.appendChild(div);
+    });
+
+    dateInput.onchange = renderAttendance;
+}
+
+function saveAttendance() {
+    let date = document.getElementById("attendanceDate").value;
+
+    if (!date) {
+        alert("Pehle date select karo!");
+        return;
+    }
+
+    let allAttendance = JSON.parse(localStorage.getItem("attendanceData") || "{}");
+    let dailyAttendance = {};
+
+    students.forEach(function(student, index) {
+        let select = document.getElementById("attendance_" + index);
+
+        if (select) {
+            dailyAttendance[index] = select.value;
+        }
+    });
+
+    allAttendance[date] = dailyAttendance;
+
+    localStorage.setItem("attendanceData", JSON.stringify(allAttendance));
+
+    document.getElementById("attendanceMessage").textContent =
+        "✅ Attendance Successfully Saved!";
 }
 
 function showDashboard() {
     showPage("dashboard");
 }
-</script>
