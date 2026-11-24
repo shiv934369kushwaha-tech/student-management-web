@@ -49,6 +49,36 @@
             border-collapse: collapse;
             margin-top: 15px;
         }
+        
+/* DASHBOARD ACCORDION DESIGN */
+#dashboard > div[style*="margin-top:15px"] {
+    transition: all 0.3s ease;
+}
+
+#dashboard > div > div[onclick] {
+    background-size: 200% auto !important;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+#dashboard > div > div[onclick]:hover {
+    background-position: right center;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.2);
+}
+
+#dashboard button {
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+#dashboard button:hover {
+    background: #dbeafe !important;
+    color: #1e40af !important;
+    padding-left: 22px !important;
+}
+
 
         th, td {
             border: 1px solid #aaa;
